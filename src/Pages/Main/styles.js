@@ -1,11 +1,18 @@
 import { StyleSheet } from 'react-native';
-import { general, colors } from '../../Styles';
+import {  colors } from '../../Styles';
 
 const styles = StyleSheet.create({
-  button: {
+  contentButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: -50
+  },
+  text: {
     color: colors.light,
-    backgroundColor: colors.background,
-  }
+    marginTop: 40,
+    marginBottom: 10
+  },
+  
 });
 
 export default styles;

@@ -6,11 +6,12 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.transparent
+        backgroundColor: colors.transparent,
     },
     image: {
         width: 250,
-        height: 250
+        height: 250,
+        marginTop: 50
     }
 });
 

@@ -11,7 +11,22 @@ const metrics = {
   tabBarHeight: 54,
   navBarHeight: (Platform.OS === 'ios') ? 64 : 54,
   statusBarHeight: (Platform.OS === 'ios') ? 20 : 0,
-  baseRadius: 3,
+  padding: {
+    button: {
+      horizontal: {
+        default: 30,
+        long: 80
+      },
+      vertical: {
+        default: 20
+      }
+    }
+  },
+  radius: {
+    button: {
+      default: 3
+    }
+  }
 };
 
 export default metrics;
