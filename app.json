@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "yourband",
+    "name": "YourBand",
     "slug": "yourband",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/logo_transparent.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/assets/logo_transparent.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#2d2744"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,10 +17,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourband.yourband"
+    },
+    "android": {
+      "package": "com.yourband.yourband"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "",
+    "platforms": [
+      "ios",
+      "android"
+    ]
   }
 }

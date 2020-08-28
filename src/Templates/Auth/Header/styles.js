@@ -4,14 +4,20 @@ import { colors } from '../../../Styles';
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: colors.transparent,
     },
+
     image: {
+        top: 70,
         width: 250,
-        height: 250,
-        marginTop: 50
+        height: 250
+    },
+
+    back: {
+        position: "absolute",
+        left: 20,
+        top: 50
     }
 });
 

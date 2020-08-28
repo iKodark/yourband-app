@@ -8,7 +8,7 @@ import { Button } from '../../Components';
 
 const Main = ({ navigation }) => (
   <Auth>
-    <View style={styles.contentButton}>
+    <View style={styles.content}>
       <Button action={() => navigation.navigate('Signin') }>
         Signin
       </Button>

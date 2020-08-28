@@ -20,11 +20,20 @@ const metrics = {
       vertical: {
         default: 20
       }
+    },
+
+    form: {
+      horizontal: {
+        default: 30
+      }
     }
   },
   radius: {
     button: {
-      default: 3
+      default: 100
+    },
+    input: {
+      default: 20
     }
   }
 };

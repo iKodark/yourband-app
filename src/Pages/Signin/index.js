@@ -1,24 +1,60 @@
-import React from 'react';
-import styles from './styles';
-import { View, Button, Text } from 'react-native';
+import React from 'react'; 
+import { View, Alert, Text } from 'react-native';
 
-const Signin = ({ navigation }) => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>Signin</Text>
-    <Button 
-      title="Ir para Signup"
-      onPress={() => navigation.navigate('Signup') }
-    />
+import { Button, Input } from '../../Components';
 
-    <Button 
-      title="Ir para Main"
-      onPress={() => navigation.navigate('Main') }
-    />
-  </View>
-);
+import { Formik } from 'formik';
 
-Signin.navigationOptions = {
-  title: 'Signin',
+import Auth from '../../Templates/Auth';
+
+export default function Signin() {
+
+  const initialValues = {
+    name: '',
+    username: '',
+    email: '',
+    password: '',
+    repeat_password: ''
+  };
+
+  const submit = (values) => {
+    Alert.alert(JSON.stringify(values));
+    console.log(values);
+  }
+
+  const renderForm = ({ handleBlur, handleSubmit, values, setFieldValue, setFieldTouched, touched, errors }) => (
+    <View>
+      <Input
+        name="email"
+        label="Email"
+        autoCorrect={false}
+        autoCapitalize="none"
+        keyboardType="email-address"
+        autoCompleteType="email"
+        returnKeyType="next"
+        onChange={setFieldValue}
+        onTouch={setFieldTouched}
+        value={values.name}
+        error={touched.name && errors.name}
+      />
+
+      <Button action={handleSubmit}>
+        Register
+      </Button>
+    </View>
+  )
+
+  return (
+    <Auth>
+
+      <Formik
+        initialValues={initialValues}
+        onSubmit={submit}
+      >
+        {renderForm}
+      </Formik>
+
+    </Auth>
+  );
+
 }
-
-export default Signin;

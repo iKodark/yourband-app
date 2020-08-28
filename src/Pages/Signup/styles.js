@@ -1,13 +1,25 @@
 import { StyleSheet } from 'react-native';
-import { general } from '../../Styles/general';
+import { metrics } from '../../Styles';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#000',
-  },
+    content: {
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    form: {
+        paddingHorizontal: metrics.padding.form.horizontal.default
+    },
+
+    logo: {
+        top: 0,
+        width: 150,
+        height: 150
+    },
+
+    buttonSubmit: {
+        marginTop: 20
+    },
 });
 
 export default styles;

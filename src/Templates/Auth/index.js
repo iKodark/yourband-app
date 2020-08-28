@@ -4,9 +4,9 @@ import { View } from 'react-native';
 import Header from './Header';
 import Footer from './Footer';
 
-const Auth = ({children}) => (
+const Auth = ({ children, styleLogo, typeLogo, navigation, back }) => (
   <View style={styles.container}>
-    <Header />
+    <Header styleLogo={styleLogo} typeLogo={typeLogo} navigation={navigation} back={back} />
     {children}
     <Footer />
   </View>

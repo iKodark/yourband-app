@@ -7,7 +7,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: colors.transparent,
-        padding: 15
+        padding: 15,
+        position: 'absolute',
+        bottom: 0
     },
     copyright: {
         color: colors.light
