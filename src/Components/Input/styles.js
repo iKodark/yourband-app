@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { colors, fonts, metrics } from '../../Styles';
-import { color } from 'react-native-reanimated';
 
 const styles = StyleSheet.create({
 
@@ -14,10 +13,13 @@ const styles = StyleSheet.create({
 
     label: {
         position: 'absolute',
-        fontSize: fonts.regular,
         display: 'flex',
         color: colors.light,
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        top: 20,
+        left: 5,
+        fontSize: fonts.input,
+        fontWeight: 'normal'
     },
 
     input: {

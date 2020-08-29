@@ -1,29 +1,42 @@
-import React from 'react'; 
-import { View, Alert, Text } from 'react-native';
-
-import { Button, Input } from '../../Components';
-
-import { Formik } from 'formik';
+import React, { useRef } from 'react';
+import {
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Alert
+} from 'react-native';
+import {Formik} from 'formik';
 
 import Auth from '../../Templates/Auth';
+import { Button, Input } from '../../Components';
+import styles from './styles';
+import { signin as Validation } from '../../Validations';
 
-export default function Signin() {
+export default function Signin ({ navigation }) {
 
   const initialValues = {
-    name: '',
-    username: '',
     email: '',
-    password: '',
-    repeat_password: ''
+    password: ''
   };
 
-  const submit = (values) => {
-    Alert.alert(JSON.stringify(values));
-    console.log(values);
+  const submit = (data) => {
+    Alert.alert(JSON.stringify(data));
+    console.log(data);
   }
 
-  const renderForm = ({ handleBlur, handleSubmit, values, setFieldValue, setFieldTouched, touched, errors }) => (
-    <View>
+  const renderForm = ({
+    values,
+    setFieldValue,
+    setFieldTouched,
+    touched,
+    errors,
+    handleSubmit,
+    isValid,
+    isSubmitting
+  }) => (
+    <View style={styles.form}>
+      
       <Input
         name="email"
         label="Email"
@@ -34,27 +47,48 @@ export default function Signin() {
         returnKeyType="next"
         onChange={setFieldValue}
         onTouch={setFieldTouched}
-        value={values.name}
-        error={touched.name && errors.name}
+        value={values.email}
+        error={touched.email && errors.email}
       />
 
-      <Button action={handleSubmit}>
+      <Input
+        name="password"
+        label="Password"
+        autoCompleteType="password"
+        secureTextEntry={true}
+        returnKeyType="next"
+        onChange={setFieldValue}
+        onTouch={setFieldTouched}
+        value={values.password}
+        error={touched.password && errors.password}
+      />
+
+      <Button action={handleSubmit} style={styles.buttonSubmit}>
         Register
       </Button>
+
     </View>
-  )
+  );
 
   return (
-    <Auth>
+    <Auth styleLogo={styles.logo} typeLogo="symbol" navigation={navigation} back={true} >
 
-      <Formik
-        initialValues={initialValues}
-        onSubmit={submit}
-      >
-        {renderForm}
-      </Formik>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
+          <ScrollView>
+            <View>
+
+              <Formik
+                initialValues={initialValues}
+                onSubmit={submit}
+                validationSchema={Validation}
+              >
+                {renderForm}
+              </Formik>
+
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
 
     </Auth>
   );
-
-}
+};

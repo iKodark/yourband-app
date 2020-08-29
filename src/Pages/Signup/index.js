@@ -15,8 +15,6 @@ import { signup as Validation } from '../../Validations';
 
 export default function Signup ({ navigation }) {
 
-  const formRef = useRef(null);
-
   const initialValues = {
     name: '',
     username: '',
@@ -38,10 +36,10 @@ export default function Signup ({ navigation }) {
     errors,
     handleSubmit,
     isValid,
-    isSubmitting,
-    handleChange, handleBlur
+    isSubmitting
   }) => (
     <View style={styles.form}>
+
       <Input
         name="name"
         label="Name"
@@ -104,6 +102,7 @@ export default function Signup ({ navigation }) {
       <Button action={handleSubmit} style={styles.buttonSubmit}>
         Register
       </Button>
+
     </View>
   );
 

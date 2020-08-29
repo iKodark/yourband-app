@@ -1,9 +1,12 @@
 import React, { useRef, useState }  from 'react';
 import { Text, TextInput, Animated, View } from 'react-native';
-import { colors } from '../../Styles';
+import { colors, fonts } from '../../Styles';
 
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import * as Animatable from 'react-native-animatable';
+
+const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 export default function Input({
   name,
@@ -16,53 +19,35 @@ export default function Input({
   ...rest
 }) {
 
-  const fadeLabelPosition = useRef(new Animated.Value(20)).current;
-  const [animationInput, setAnimation] = useState(new Animated.Value(0));
+  const InputRef = useRef();
+  const LabelRef = useRef();
 
   const onChangeText = text => {
     onChange(name, text);
   };
 
   const onFocus = () => {
-    Animated.parallel([
-      Animated.timing(fadeLabelPosition, {
-        toValue: 0,
-        duration: 400,
-        useNativeDriver: true
-      }),
+    
+    InputRef.current.transitionTo({ borderColor: colors.primary });
 
-      Animated.timing(animationInput, {
-        toValue:1,
-        duration: 1000
-      })
-    ]).start();
+    setTimeout(() => {
+      LabelRef.current.transitionTo({ top: 0 });
+      LabelRef.current.transitionTo({ left: 0 });
+      LabelRef.current.transitionTo({ fontSize: fonts.regular });
+    });
   };
-
-  const boxInterpolation =  animationInput.interpolate({
-    inputRange: [0, 1],
-    outputRange:[colors.secondary , "rgb(1, 255, 205)"]
-  });
-
-  const animatedStyle = {
-    borderColor: boxInterpolation
-  }
 
   const onBlur = () => {
 
     onTouch(name);
 
-    Animated.parallel([
-      Animated.timing(fadeLabelPosition, {
-        toValue: value.length > 0 || value === undefined || value == null ? 0 : 20,
-        duration: 400,
-        useNativeDriver: 'true'
-      }),
+    InputRef.current.transitionTo({ borderColor: colors.transparent });
 
-      Animated.timing(animationInput, {
-        toValue: 0,
-        duration: 400
-      })
-    ]).start();
+    setTimeout(() => {
+      LabelRef.current.transitionTo({ top: value.length > 0 || value === undefined || value == null ? 0 : 20 });
+      LabelRef.current.transitionTo({ left: value.length > 0 || value === undefined || value == null ? 0 : 5 });
+      LabelRef.current.transitionTo({ fontSize: value.length > 0 || value === undefined || value == null ? fonts.regular : fonts.input });
+    });
   };
 
   return (
@@ -72,16 +57,27 @@ export default function Input({
         
           <View style={ styles.textValidation }>
             {error ? (
-              <Text style={{ color: colors.danger }} >{ error }</Text>
+              <Animatable.Text
+                style={{ color: colors.danger }}
+                animation="bounceIn"
+                useNativeDriver
+              >
+                { error }
+              </Animatable.Text>
             ) : null}
           </View>
         
 
       </View>
-      <Animated.View style={{ ...styles.content, ...animatedStyle }}>
+      <Animatable.View style={ styles.content } ref={InputRef}>
 
           { label &&
-            <Animated.Text style={[ styles.label, { transform: [ { translateY: fadeLabelPosition} ] } ]}>{label}</Animated.Text>
+            <Animatable.Text
+              style={ styles.label }
+              ref={LabelRef}
+            >
+              {label}
+            </Animatable.Text>
           }
 
           <TextInput
@@ -94,15 +90,17 @@ export default function Input({
 
           {error ? (
             <View style={ styles.iconValidation }>
-              <Icon
+              <AnimatedIcon
                 name="exclamation-circle"
                 size={20}
                 color={colors.danger}
+                animation="bounceIn"
+                useNativeDriver
               />
             </View>
           ) : null}
 
-      </Animated.View>
+      </Animatable.View>
     </>
   );
 }

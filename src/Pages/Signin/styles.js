@@ -1,9 +1,26 @@
 import { StyleSheet } from 'react-native';
+import { metrics } from '../../Styles';
 
 const styles = StyleSheet.create({
-  container: {
-    // My styles
-  },
+    content: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    form: {
+      paddingHorizontal: metrics.padding.form.horizontal.default,
+    },
+
+    logo: {
+      top: 0,
+      marginTop: 150,
+      width: 150,
+      height: 150
+    },
+
+    buttonSubmit: {
+      marginTop: 20
+    },
 });
 
 export default styles;
