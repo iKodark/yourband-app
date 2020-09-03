@@ -64,7 +64,7 @@ export default function Signin ({ navigation }) {
       />
 
       <Button action={handleSubmit} style={styles.buttonSubmit}>
-        Register
+        Login
       </Button>
 
     </View>

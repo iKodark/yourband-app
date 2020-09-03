@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 15,
         paddingVertical: 15,
-        marginTop: 10,
+        marginTop: 5,
         fontWeight: 'bold'
     },
 
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     textValidation: {
         width: '100%',
         alignItems: 'flex-end',
+        justifyContent: 'flex-end',
         right: 10,
         height: 20
     },

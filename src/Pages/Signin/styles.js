@@ -4,11 +4,11 @@ import { metrics } from '../../Styles';
 const styles = StyleSheet.create({
     content: {
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'center'
     },
 
     form: {
-      paddingHorizontal: metrics.padding.form.horizontal.default,
+      paddingHorizontal: metrics.padding.form.horizontal.default
     },
 
     logo: {

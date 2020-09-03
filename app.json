@@ -4,9 +4,9 @@
     "slug": "yourband",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/logo_transparent.png",
+    "icon": "./src/assets/symbol_dark.jpg",
     "splash": {
-      "image": "./src/assets/logo_transparent.png",
+      "image": "./src/assets/logo_since_transparent.png",
       "resizeMode": "contain",
       "backgroundColor": "#2d2744"
     },
