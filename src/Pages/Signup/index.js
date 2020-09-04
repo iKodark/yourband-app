@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {Formik} from 'formik';
 
+import axios from 'axios'
 import Auth from '../../Templates/Auth';
 import { Button, Input } from '../../Components';
 import styles from './styles';
@@ -24,8 +25,19 @@ export default function Signup ({ navigation }) {
   };
 
   const submit = (data) => {
-    Alert.alert(JSON.stringify(data));
-    console.log(data);
+    //console.log(data);
+  
+    axios.post('http://localhost:9000/api/signup', {  //Trocar o localhost pelo ip local da maquina para funcionar
+      email: data.email,
+      name: data.name,
+      password:data.password,
+      username:data.username
+}
+).then(function (response) {
+    console.log(response);
+     }).catch((err) =>{
+       return console.log(err);
+     })
   }
 
   const renderForm = ({
@@ -109,7 +121,7 @@ export default function Signup ({ navigation }) {
   return (
     <Auth styleLogo={styles.logo} typeLogo="symbol" navigation={navigation} back={true} >
 
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : Platform.OS==='android'} style={styles.container}>
           <ScrollView>
             <View>
 

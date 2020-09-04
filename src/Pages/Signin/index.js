@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import {Formik} from 'formik';
 
+import axios from 'axios';
+
 import Auth from '../../Templates/Auth';
 import { Button, Input } from '../../Components';
 import styles from './styles';
@@ -15,13 +17,24 @@ import { signin as Validation } from '../../Validations';
 
 export default function Signin ({ navigation }) {
 
+ 
+
   const initialValues = {
     email: '',
     password: ''
   };
 
   const submit = (data) => {
-    Alert.alert(JSON.stringify(data));
+    axios.post('http://localhost:9000/api/signin', { //Trocar o localhost pelo ip local da maquina para funcionar
+      
+    username:data.username,
+    password:data.password
+
+  }).then((response) =>{
+     console.log(response);
+    }).catch((err) =>{
+      return console.log(err);
+    })  
     console.log(data);
   }
 
@@ -64,7 +77,7 @@ export default function Signin ({ navigation }) {
       />
 
       <Button action={handleSubmit} style={styles.buttonSubmit}>
-        Login
+        Log in
       </Button>
 
     </View>
@@ -73,7 +86,7 @@ export default function Signin ({ navigation }) {
   return (
     <Auth styleLogo={styles.logo} typeLogo="symbol" navigation={navigation} back={true} >
 
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : "height"} style={styles.container}>
           <ScrollView>
             <View>
 
