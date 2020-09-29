@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: colors.transparent,
         padding: 15,
-        position: 'relative',
+        position: 'absolute',
         bottom: 0
     },
     copyright: {

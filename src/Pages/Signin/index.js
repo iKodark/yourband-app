@@ -1,41 +1,49 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import {
   View,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Alert
+  Async
 } from 'react-native';
 import {Formik} from 'formik';
 
-import axios from 'axios';
-
 import Auth from '../../Templates/Auth';
-import { Button, Input } from '../../Components';
+import { Button, Input, Notify } from '../../Components';
 import styles from './styles';
 import { signin as Validation } from '../../Validations';
+import api from '../../Services/Api';
+
+import { setToken, setStorage } from '../../Services/AsyncStorage';
 
 export default function Signin ({ navigation }) {
 
- 
-
   const initialValues = {
-    email: '',
+    login: '',
     password: ''
   };
 
-  const submit = (data) => {
-    axios.post('http://localhost:9000/api/signin', { //Trocar o localhost pelo ip local da maquina para funcionar
-      
-    username:data.username,
-    password:data.password
+  const submit = async (data) => {
+    // navigation.navigate('Dashboard');
+    api.post('/signin', {
+      login: data.login,
+      password: data.password
+    })
+    .then(res => {
 
-  }).then((response) =>{
-     console.log(response);
-    }).catch((err) =>{
-      return console.log(err);
-    })  
-    console.log(data);
+      const {data, message} = res.data;
+      Notify(message, 'success');
+
+      setStorage('user', data.user);
+      setToken(data.token);
+
+      navigation.navigate('Dashboard');
+    })
+    .catch(err => {
+
+      const { message } = err.response.data;
+      Notify(message, 'error');
+    })
   }
 
   const renderForm = ({
@@ -44,24 +52,20 @@ export default function Signin ({ navigation }) {
     setFieldTouched,
     touched,
     errors,
-    handleSubmit,
-    isValid,
-    isSubmitting
+    handleSubmit
   }) => (
     <View style={styles.form}>
       
       <Input
-        name="email"
-        label="Email"
+        name="login"
+        label="Email or Username"
         autoCorrect={false}
         autoCapitalize="none"
-        keyboardType="email-address"
-        autoCompleteType="email"
         returnKeyType="next"
         onChange={setFieldValue}
         onTouch={setFieldTouched}
-        value={values.email}
-        error={touched.email && errors.email}
+        value={values.login}
+        error={touched.login && errors.login}
       />
 
       <Input

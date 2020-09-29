@@ -2,9 +2,8 @@ import * as Yup from 'yup';
 
 export default Yup.object().shape({
 
-    email: Yup.string()
-        .email('Digite um email válido')
-        .required('Digite um email'),
+    login: Yup.string()
+        .required('Digite um login'),
 
     password: Yup.string()
         .required('Digite uma senha')

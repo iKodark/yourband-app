@@ -2,10 +2,16 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../Styles';
 
 const styles = StyleSheet.create({
-  container: {
+  content: {
     flex: 1,
-    backgroundColor: colors.secondary
+    paddingHorizontal: 5
   },
+
+  text: {
+    color: colors.light,
+    marginTop: 40,
+    marginBottom: 10
+  }
 });
 
 export default styles;

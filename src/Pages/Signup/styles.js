@@ -4,7 +4,8 @@ import { metrics } from '../../Styles';
 const styles = StyleSheet.create({
     content: {
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 100
     },
 
     form: {

@@ -1,18 +1,17 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import {
   View,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
-  Alert
+  ScrollView
 } from 'react-native';
 import {Formik} from 'formik';
 
-import axios from 'axios'
 import Auth from '../../Templates/Auth';
-import { Button, Input } from '../../Components';
+import { Button, Input, Notify } from '../../Components';
 import styles from './styles';
 import { signup as Validation } from '../../Validations';
+import api from '../../Services/Api';
 
 export default function Signup ({ navigation }) {
 
@@ -25,19 +24,24 @@ export default function Signup ({ navigation }) {
   };
 
   const submit = (data) => {
-    //console.log(data);
-  
-    axios.post('http://localhost:9000/api/signup', {  //Trocar o localhost pelo ip local da maquina para funcionar
+
+    api.post('/signup', {
       email: data.email,
       name: data.name,
       password:data.password,
       username:data.username
-}
-).then(function (response) {
-    console.log(response);
-     }).catch((err) =>{
-       return console.log(err);
-     })
+    })
+    .then(res => {
+
+      const {data, message} = res.data;
+      Notify(message, 'success');
+
+    })
+    .catch(err => {
+
+      const { message } = err.response.data;
+      Notify(message, 'error');
+    })
   }
 
   const renderForm = ({
@@ -46,9 +50,7 @@ export default function Signup ({ navigation }) {
     setFieldTouched,
     touched,
     errors,
-    handleSubmit,
-    isValid,
-    isSubmitting
+    handleSubmit
   }) => (
     <View style={styles.form}>
 
