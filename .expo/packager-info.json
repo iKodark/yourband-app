@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 7016,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "packagerPid": 2684,
+  "expoServerNgrokUrl": "https://7h-kg6.kodark.yourband-app.exp.direct",
+  "packagerNgrokUrl": "https://packager.7h-kg6.kodark.yourband-app.exp.direct",
+  "ngrokPid": 7804,
   "webpackServerPort": null
 }

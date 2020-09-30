@@ -32,13 +32,13 @@ export default function Signup ({ navigation }) {
       username:data.username
     })
     .then(res => {
-
+      console.log(res);
       const {data, message} = res.data;
       Notify(message, 'success');
 
     })
     .catch(err => {
-
+      console.log(err);
       const { message } = err.response.data;
       Notify(message, 'error');
     })

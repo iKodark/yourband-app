@@ -11,6 +11,7 @@ import {
 
 import Dashboard from '../../Templates/Dashboard';
 import styles from './styles';
+import Placeholder from '../../Constants/placeholders';
 
 import api from '../../Services/BillClintonSwag';
 
@@ -83,7 +84,7 @@ export default function Home () {
 
   const renderItem = ({ item }) => (
     <View style={styles.item}>
-      <Image style={[ styles.image ]} source={ {uri: item.url || 'https://townsquare.media/site/366/files/2017/07/Black-Sabbath-Master-of-Reality-Anniversary.jpg?w=980&q=75'} }/>
+      <Image style={[ styles.image ]} source={ {uri: item.url || Placeholder.album} }/>
       <Text numberOfLines={2} style={{ color: '#fff' }}>{item.album}</Text>
     </View>
   );
@@ -100,6 +101,7 @@ export default function Home () {
               horizontal={true}
               data={albums}
               renderItem={renderItem}
+              keyExtractor={(item, index) => index}
             />
           </View>
 
@@ -109,6 +111,7 @@ export default function Home () {
               horizontal={true}
               data={musics}
               renderItem={renderItem}
+              keyExtractor={(item, index) => index}
             />
           </View>
 
@@ -118,6 +121,7 @@ export default function Home () {
               horizontal={true}
               data={generes}
               renderItem={renderItem}
+              keyExtractor={(item, index) => index}
             />
           </View>
 
