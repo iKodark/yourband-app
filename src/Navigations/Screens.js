@@ -11,6 +11,9 @@ import Signup from '../Pages/Signup';
 import Tabs from './Tabs';
 
 import Bands from '../Pages/Bands';
+import Albums from '../Pages/Albums';
+import Musics from '../Pages/Musics';
+import Upload from '../Pages/Upload';
 
 const Screens = ()=>{
     return (
@@ -23,6 +26,10 @@ const Screens = ()=>{
                 <Stack.Screen name='Dashboard' component={Tabs} />
 
                 <Stack.Screen name='Bands' component={Bands} />
+                <Stack.Screen name='Albums' component={Albums} />
+                <Stack.Screen name='Musics' component={Musics} />
+
+                <Stack.Screen name='Upload' component={Upload} />
             </Stack.Navigator>
         </NavigationContainer>
     );

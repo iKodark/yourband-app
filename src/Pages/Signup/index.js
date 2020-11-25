@@ -11,7 +11,7 @@ import Auth from '../../Templates/Auth';
 import { Button, Input, Notify } from '../../Components';
 import styles from './styles';
 import { signup as Validation } from '../../Validations';
-import api from '../../Services/Api';
+import { api } from '../../Services/Api';
 
 export default function Signup ({ navigation }) {
 

@@ -16,12 +16,11 @@ const styles = StyleSheet.create({
 
   image: {
     width: 150,
-    height: 150,
-    // borderRadius: 50
+    height: 150
   },
 
   contentList: {
-    marginTop: 20
+    marginTop: 10
   },
 
   titleList: {
@@ -36,12 +35,12 @@ const styles = StyleSheet.create({
   },
 
   item: {
-    // backgroundColor: colors.se,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     flexDirection: 'column',
     width: 150,
-    marginHorizontal: 5
+    marginHorizontal: 5,
+    alignItems: 'center'
   }
 });
 

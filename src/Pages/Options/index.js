@@ -28,7 +28,7 @@ const options = [
   {
     name: 'Favoritos',
     image: favoritesImage,
-    redirect: 'Favorites'
+    redirect: 'Upload'
   },
 ];
 
@@ -37,7 +37,7 @@ const Options = ({ navigation }) => (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : "height"} style={styles.content}>
         {
           options.map(item => (
-            <TouchableOpacity onPress={() => navigation.navigate(item.redirect)} >
+            <TouchableOpacity onPress={() => navigation.navigate(item.redirect)} key={item.redirect}>
               <View style={styles.item}>
                 <Image style={[ styles.image ]} source={ item.image }/>
                 {/* <Text numberOfLines={2} style={{ color: '#fff' }}>{item.name}</Text> */}

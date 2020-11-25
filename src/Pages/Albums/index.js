@@ -12,24 +12,30 @@ import { Modalize } from 'react-native-modalize';
 
 import { TabHeader, Button, Input, Notify } from '../../Components';
 
-export default function Bands ({navigation}) {
+export default function Albums ({navigation, route}) {
 
-  const [listBands, setListBands] = useState([]);
+  const [listAlbums, setListAlbums] = useState([]);
   const [formBand, setFormBand] = useState(null);
+  const [formAlbum, setFormAlbum] = useState(null);
+  const { band } = route.params;
   const modalizeBandRef = useRef(null);
+  const modalizeAlbumRef = useRef(null);
 
   useEffect(() => {
 
-    api.get('/bands')
+    api.get(`/band/${band}`)
     .then(res => {
 
-      const { bands } = res.data;
+      const { albums, name } = res.data.band;
       
-      bands.unshift({
+      albums.unshift({
         name: 'add new'
       });
 
-      setListBands(bands);
+      setListAlbums(albums);
+      setFormBand({
+        name: name
+      });
     })
     .catch(err => {
 
@@ -40,7 +46,7 @@ export default function Bands ({navigation}) {
   const renderItem = ({ item, index }) => (
 
     index == 0 ?
-    <TouchableOpacity onPress={onOpenBand}>
+    <TouchableOpacity onPress={onOpenAlbum}>
       <View
         style={[ styles.item, {
           borderColor: colors.primary,
@@ -61,9 +67,9 @@ export default function Bands ({navigation}) {
       </View>
     </TouchableOpacity>
     :
-    <TouchableOpacity onPress={() => navigation.navigate('Albums', { band: item._id})} >
+    <TouchableOpacity onPress={() => navigation.navigate('Musics', { album: item._id})} >
       <View style={styles.item}>
-        <Image style={[ styles.image ]} source={ {uri: item.picture || Placeholder.band} }/>
+        <Image style={[ styles.image ]} source={ {uri: item.picture || Placeholder.album} }/>
         <Text numberOfLines={2} style={{ color: '#fff' }}>{item.name}</Text>
       </View>
     </TouchableOpacity>
@@ -77,7 +83,15 @@ export default function Bands ({navigation}) {
       modalizeBandRef.current?.close();
   };
 
-  const buttonAction = <Button style={styles.button} textStyle={styles.buttonText}>Editar</Button>;
+  const onOpenAlbum = () => {
+      modalizeAlbumRef.current?.open();
+  };
+
+  const onCloseAlbum = () => {
+      modalizeAlbumRef.current?.close();
+  };
+
+  const buttonAction = <Button action={onOpenBand} style={styles.button} textStyle={styles.buttonText}>Editar</Button>;
 
   const initialValuesBand = {
     name: ''
@@ -85,19 +99,18 @@ export default function Bands ({navigation}) {
 
   const submitBand = async (data) => {
 
-    api.post(`/band`, {
+    api.put(`/band/${band}`, {
       name: data.name
     })
     .then(res => {
 
-      const {bands, message} = res.data;
+      const {band, message} = res.data;
       Notify(message, 'success');
 
-      bands.unshift({
-        name: 'add new'
+      setFormBand({
+        name: band.name
       });
 
-      setListBands(bands);
       onCloseBand();
     })
     .catch(err => {
@@ -137,6 +150,73 @@ export default function Bands ({navigation}) {
         </Button>
 
         <Button action={handleSubmit} style={[ styles.buttonSubmit, styles.buttonForm]} textStyle={styles.textButtonForm}>
+          Editar
+        </Button>
+      </View>
+
+    </View>
+  );
+
+  const initialValuesAlbum = {
+    name: ''
+  };
+
+  const submitAlbum = async (data) => {
+
+    api.post(`/album`, {
+      band: band,
+      name: data.name
+    })
+    .then(res => {
+
+      const {albums, message} = res.data;
+
+      Notify(message, 'success');
+
+      albums.unshift({
+        name: 'add new'
+      });
+
+      setListAlbums(albums);
+      onCloseAlbum();
+    })
+    .catch(err => {
+
+      const { message } = err.response.data;
+      Notify(message, 'error');
+    })
+  }
+
+  const renderFormAlbum = ({
+    values,
+    setFieldValue,
+    setFieldTouched,
+    touched,
+    errors,
+    handleSubmit
+  }) => (
+    <View style={styles.form}>
+      
+      <Image source={ {uri: Placeholder.album} } style={styles.avatar} />
+
+      <Input
+        name="name"
+        label="Nome do álbum"
+        autoCorrect={false}
+        autoCapitalize="none"
+        returnKeyType="next"
+        onChange={setFieldValue}
+        onTouch={setFieldTouched}
+        value={values.name}
+        error={touched.name && errors.name}
+      />
+
+      <View style={styles.groupButton}>
+        <Button action={onCloseAlbum} style={[ styles.buttonCancel, styles.buttonForm]} textStyle={styles.textButtonForm}>
+          Cancelar
+        </Button>
+
+        <Button action={handleSubmit} style={[ styles.buttonSubmit, styles.buttonForm]} textStyle={styles.textButtonForm}>
           Criar
         </Button>
       </View>
@@ -147,9 +227,9 @@ export default function Bands ({navigation}) {
   return (
     <Dashboard>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : "height"} style={styles.content}>
-          <TabHeader navigation={navigation} buttonAction={buttonAction} title="Minhas bandas"/>
+          <TabHeader navigation={navigation} buttonAction={buttonAction} title="Meus álbuns"/>
           <FlatList
-            data={listBands}
+            data={listAlbums}
             renderItem={renderItem}
             keyExtractor={(item) => item._id}
             numColumns={2}
@@ -168,6 +248,22 @@ export default function Bands ({navigation}) {
               enableReinitialize
             >
               {renderFormBand}
+            </Formik>
+          </Modalize>
+
+          <Modalize
+            ref={modalizeAlbumRef}
+            modalTopOffset={50}
+            handlePosition={'outside'}
+            modalStyle={styles.modal}
+            overlayStyle={{backgroundColor: colors.transparent}}
+          >
+            <Formik
+              initialValues={formAlbum || initialValuesAlbum}
+              onSubmit={submitAlbum}
+              enableReinitialize
+            >
+              {renderFormAlbum}
             </Formik>
           </Modalize>
       </KeyboardAvoidingView>

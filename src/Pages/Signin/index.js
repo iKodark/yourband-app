@@ -12,7 +12,7 @@ import Auth from '../../Templates/Auth';
 import { Button, Input, Notify } from '../../Components';
 import styles from './styles';
 import { signin as Validation } from '../../Validations';
-import api from '../../Services/Api';
+import { api } from '../../Services/Api';
 
 import { setToken, setStorage } from '../../Services/AsyncStorage';
 
@@ -30,7 +30,7 @@ export default function Signin ({ navigation }) {
       password: data.password
     })
     .then(res => {
-
+      
       const {data, message} = res.data;
       Notify(message, 'success');
 

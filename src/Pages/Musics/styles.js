@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    color: colors.transparent,
+    color: colors.primary,
     fontSize: fonts.normal
   },
 
@@ -81,6 +81,15 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 100,
+    backgroundColor: colors.transparentHalf
+  },
+
+  buttonUpload: {
+    marginTop: 20,
+    width: '100%'
+  },
+
+  buttonEmpty: {
     backgroundColor: colors.transparentHalf
   }
 });

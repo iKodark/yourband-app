@@ -57,6 +57,7 @@ export default function Footer({ state, descriptors, navigation }) {
             onPress={onPress}
             onLongPress={onLongPress}
             style={styles.tab}
+            key={route.name}
           >
             {
               icon ?

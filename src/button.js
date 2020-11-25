@@ -5,6 +5,8 @@ import styles from './styles';
 
 export default function Button ({ children, type, style, textStyle, action }) {
 
+    const openModal = () => {};
+
     return (
         <>
             <TouchableOpacity
@@ -13,7 +15,7 @@ export default function Button ({ children, type, style, textStyle, action }) {
                 style,
                 type === 'outline' ? styles[`button-${type}`] : {},
             ]}
-            onPress={action}
+            onClick={openModal}
             >
                 <Text style={[
                     styles.text,
@@ -23,6 +25,9 @@ export default function Button ({ children, type, style, textStyle, action }) {
                     { children }
                 </Text>
             </TouchableOpacity>
+
+
+            <Modal openModal={openModal}> </Modal>
         </>
     );
 };

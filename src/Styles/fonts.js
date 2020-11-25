@@ -5,7 +5,8 @@ const fonts = {
   medium: 12,
   small: 11,
   tiny: 10,
-  biggie: 25
+  biggie: 25,
+  normal: 18
 };
 
 export default fonts;

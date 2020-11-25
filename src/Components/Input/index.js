@@ -1,4 +1,4 @@
-import React, { useRef, useState }  from 'react';
+import React, { useRef, useState, useEffect }  from 'react';
 import { Text, TextInput, Animated, View } from 'react-native';
 import { colors, fonts } from '../../Styles';
 
@@ -22,7 +22,16 @@ export default function Input({
   const InputRef = useRef();
   const LabelRef = useRef();
 
+  useEffect(() => {
+
+    if(value.length > 0) {
+
+      onBlur();
+    }
+  }, []);
+
   const onChangeText = text => {
+    
     onChange(name, text);
   };
 
@@ -38,7 +47,7 @@ export default function Input({
   };
 
   const onBlur = () => {
-
+    
     onTouch(name);
 
     InputRef.current.transitionTo({ borderColor: colors.transparent });
@@ -85,6 +94,7 @@ export default function Input({
             onChangeText={ onChangeText }
             onFocus={() => onFocus()}
             onBlur={() => onBlur()}
+            value={value}
             {...rest}
           />
 

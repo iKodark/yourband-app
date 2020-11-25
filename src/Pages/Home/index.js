@@ -6,87 +6,92 @@ import {
   ScrollView,
   Text,
   Image,
-  FlatList
+  FlatList,
+  TouchableOpacity
 } from 'react-native';
 
 import Dashboard from '../../Templates/Dashboard';
 import styles from './styles';
 import Placeholder from '../../Constants/placeholders';
 
-import api from '../../Services/BillClintonSwag';
+import { api } from '../../Services/Api';
+
+import { Audio } from 'expo-av';
 
 export default function Home () {
 
-  const [albums, setAlbums] = useState([]);
+  const [ listBands, setListBands ] = useState([]);
+  const [ listAlbums, setListAlbums ] = useState([]);
+  const [ listMusics, setListMusics ] = useState([]);
 
-  const [musics, setMusics] = useState([]);
-
-  const generes = [
-    {
-      album: 'Rock',
-      url: 'https://fakeimg.pl/125/ff0000,128/fff/?retina=1&text=Rock'
-    },
-    {
-      album: 'Blues',
-      url: 'https://fakeimg.pl/125/ffee33,128/fff/?retina=1&text=Blues'
-    },
-    {
-      album: 'Pop',
-      url: 'https://fakeimg.pl/125/ff5588,128/fff/?retina=1&text=Pop'
-    },
-    {
-      album: 'Rap',
-      url: 'https://fakeimg.pl/125/000000,128/fff/?retina=1&text=Rap'
-    },
-    {
-      album: 'Funk',
-      url: 'https://fakeimg.pl/125/ccccff,128/fff/?retina=1&text=Funk'
-    },
-    {
-      album: 'Grunge',
-      url: 'https://fakeimg.pl/125/00bb00,128/fff/?retina=1&text=Rock'
-    },
-  ];
+  const [playbackObject, setPlaybackObject] = useState([]);
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
 
-    getAlbums();
-    getMusics();
+    api.get('/home')
+    .then(res => {
+      
+      var { bands, albums, musics } = res.data;
+      
+      bands = bands.map(band => ({...band, type: 'band'}));
+      albums = albums.map(album => ({...album, type: 'album'}));
+      musics = musics.map(music => ({...music, type: 'music', path: music.path ? `https://yourband.s3-sa-east-1.amazonaws.com/${music.path}` : null}));
+
+      setListBands(bands);
+      setListAlbums(albums);
+      setListMusics(musics);
+    })
+    .catch(err => {
+
+      console.log(err);
+    });
   }, []);
 
-  const getAlbums = () => {
+  const play = async (path) => {
 
-    api.get('Black Sabbath')
-    .then(res => {
+    console.log(path);
 
-      const { data } = res;
-      setAlbums(data);
-    })
-    .catch(err => {
+    if(!playing && path) {
 
-      console.log(err);
-    });
+      const soundObject = new Audio.Sound()
+      try {
+          
+          await soundObject.loadAsync({uri: path})
+          setPlaying(true);
+          
+          await soundObject.playAsync()
+          setPlaybackObject(soundObject)
+      } catch (error) {
+          console.log("Couldnt load main theme", error)
+          return
+      }
+    } else {
+
+      stop()
+    }
   }
 
-  const getMusics = () => {
+  const stop = async () => {
 
-    api.get('Fire')
-    .then(res => {
+      try {
 
-      const { data } = res;
-      setMusics(data);
-    })
-    .catch(err => {
-
-      console.log(err);
-    });
+          await playbackObject.stopAsync()
+          await playbackObject.unloadAsync()
+          setPlaying(false);
+      } catch (error) {
+          console.log("Couldnt stop main theme", error)
+          return
+      }
   }
 
   const renderItem = ({ item }) => (
-    <View style={styles.item}>
-      <Image style={[ styles.image ]} source={ {uri: item.url || Placeholder.album} }/>
-      <Text numberOfLines={2} style={{ color: '#fff' }}>{item.album}</Text>
-    </View>
+    <TouchableOpacity onPress={() => play(item.path)}>
+      <View key={item._id} style={styles.item}>
+        <Image style={[ styles.image ]} source={ {uri: item.url || Placeholder[item.type]} }/>
+        <Text numberOfLines={2} style={{ color: '#fff' }}>{item.name}</Text>
+      </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -96,12 +101,22 @@ export default function Home () {
         <ScrollView>
 
           <View style={styles.contentList}>
+            <Text style={styles.titleList}> Bandas </Text>
+            <FlatList
+              horizontal={true}
+              data={listBands}
+              renderItem={renderItem}
+              keyExtractor={item => ( item._id.toString() )}
+            />
+          </View>
+
+          <View style={styles.contentList}>
             <Text style={styles.titleList}> Álbuns </Text>
             <FlatList
               horizontal={true}
-              data={albums}
+              data={listAlbums}
               renderItem={renderItem}
-              keyExtractor={(item, index) => index}
+              keyExtractor={item => ( item._id.toString() )}
             />
           </View>
 
@@ -109,19 +124,9 @@ export default function Home () {
             <Text style={styles.titleList}> Músicas </Text>
             <FlatList
               horizontal={true}
-              data={musics}
+              data={listMusics}
               renderItem={renderItem}
-              keyExtractor={(item, index) => index}
-            />
-          </View>
-
-          <View style={styles.contentList}>
-            <Text style={styles.titleList}> Gêneros </Text>
-            <FlatList
-              horizontal={true}
-              data={generes}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index}
+              keyExtractor={item => ( item._id.toString() )}
             />
           </View>
 

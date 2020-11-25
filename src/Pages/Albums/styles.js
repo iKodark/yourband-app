@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    color: colors.transparent,
+    color: colors.primary,
     fontSize: fonts.normal
   },
 

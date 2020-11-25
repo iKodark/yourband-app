@@ -15,7 +15,7 @@ const setStorage = async (key, value) => {
 const setToken = async (value) => {
 
   try {
-    console.log('SET', value);
+    // console.log('SET', value);
     await AsyncStorage.setItem('token', value)
   } catch (e) {
 
@@ -28,7 +28,7 @@ const getToken = async () => {
   try {
 
     const value = await AsyncStorage.getItem('token')
-    console.log('GET', value);
+    // console.log('GET', value);
     return value;
   } catch(e) {
 
